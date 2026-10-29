@@ -1,0 +1,238 @@
+data,refeicao,dia_semana_txt,agendamentos,faltas,chuva_mm,linhas_brutas,dow
+2026-03-02,almoco,Segunda-feira,4620,799.0,0.0,2,0
+2026-03-02,cafe da manha,Segunda-feira,1277,582.0,0.0,2,0
+2026-03-02,jantar,Segunda-feira,3431,1410.0,0.0,2,0
+2026-03-03,almoco,Terça-feira,4825,1512.0,0.0,2,1
+2026-03-03,cafe da manha,Terça-feira,1705,989.0,0.0,2,1
+2026-03-03,jantar,Terça-feira,3490,1858.0,0.0,2,1
+2026-03-04,almoco,Quarta-feira,4873,1476.0,8.0,2,2
+2026-03-04,cafe da manha,Quarta-feira,1740,950.0,8.0,2,2
+2026-03-04,jantar,Quarta-feira,3519,1852.0,8.0,2,2
+2026-03-05,almoco,Quinta-feira,4406,1210.0,2.0,2,3
+2026-03-05,cafe da manha,Quinta-feira,1545,819.0,2.0,2,3
+2026-03-05,jantar,Quinta-feira,3331,1790.0,2.0,2,3
+2026-03-06,almoco,Sexta-feira,4141,1350.0,0.0,2,4
+2026-03-06,cafe da manha,Sexta-feira,1593,904.0,0.0,2,4
+2026-03-06,jantar,Sexta-feira,2910,1745.0,0.0,2,4
+2026-03-07,almoco,Sábado,921,287.0,16.0,2,5
+2026-03-07,cafe da manha,Sábado,672,393.0,16.0,2,5
+2026-03-07,jantar,Sábado,861,493.0,16.0,2,5
+2026-03-08,almoco,Domingo,773,228.0,0.0,2,6
+2026-03-08,cafe da manha,Domingo,586,383.0,0.0,2,6
+2026-03-08,jantar,Domingo,818,416.0,0.0,2,6
+2026-03-09,almoco,Segunda-feira,4116,714.0,0.0,2,0
+2026-03-09,cafe da manha,Segunda-feira,1192,549.0,0.0,2,0
+2026-03-09,jantar,Segunda-feira,3433,1415.0,0.0,2,0
+2026-03-10,almoco,Terça-feira,5001,1416.0,0.0,2,1
+2026-03-10,cafe da manha,Terça-feira,1797,879.0,0.0,2,1
+2026-03-10,jantar,Terça-feira,3589,1863.0,0.0,2,1
+2026-03-11,almoco,Quarta-feira,5000,968.0,0.0,2,2
+2026-03-11,cafe da manha,Quarta-feira,1864,935.0,0.0,2,2
+2026-03-11,jantar,Quarta-feira,3866,1822.0,0.0,2,2
+2026-03-12,almoco,Quinta-feira,4837,1149.0,0.2,2,3
+2026-03-12,cafe da manha,Quinta-feira,1635,803.0,0.2,2,3
+2026-03-12,jantar,Quinta-feira,3568,1678.0,0.2,2,3
+2026-03-13,almoco,Sexta-feira,4321,1280.0,0.0,2,4
+2026-03-13,cafe da manha,Sexta-feira,1699,816.0,0.0,2,4
+2026-03-13,jantar,Sexta-feira,3023,1655.0,0.0,2,4
+2026-03-14,almoco,Sábado,1003,285.0,0.0,2,5
+2026-03-14,cafe da manha,Sábado,673,405.0,0.0,2,5
+2026-03-14,jantar,Sábado,897,502.0,0.0,2,5
+2026-03-15,almoco,Domingo,789,240.0,0.0,2,6
+2026-03-15,cafe da manha,Domingo,574,340.0,0.0,2,6
+2026-03-15,jantar,Domingo,836,371.0,0.0,2,6
+2026-03-16,almoco,Segunda-feira,4025,932.0,0.0,2,0
+2026-03-16,cafe da manha,Segunda-feira,1173,459.0,0.0,2,0
+2026-03-16,jantar,Segunda-feira,3358,1534.0,0.0,2,0
+2026-03-17,almoco,Terça-feira,5000,1372.0,1.0,2,1
+2026-03-17,cafe da manha,Terça-feira,1811,881.0,1.0,2,1
+2026-03-17,jantar,Terça-feira,3852,1688.0,1.0,2,1
+2026-03-18,almoco,Quarta-feira,5003,1467.0,2.0,2,2
+2026-03-18,cafe da manha,Quarta-feira,1934,922.0,2.0,2,2
+2026-03-18,jantar,Quarta-feira,3726,1824.0,2.0,2,2
+2026-03-19,almoco,Quinta-feira,4575,973.0,0.0,2,3
+2026-03-19,cafe da manha,Quinta-feira,1478,609.0,0.0,2,3
+2026-03-19,jantar,Quinta-feira,3524,1644.0,0.0,2,3
+2026-03-20,almoco,Sexta-feira,4429,1067.0,0.0,2,4
+2026-03-20,cafe da manha,Sexta-feira,1659,799.0,0.0,2,4
+2026-03-20,jantar,Sexta-feira,3131,1528.0,0.0,2,4
+2026-03-21,almoco,Sábado,977,363.0,0.0,2,5
+2026-03-21,cafe da manha,Sábado,700,415.0,0.0,2,5
+2026-03-21,jantar,Sábado,916,551.0,0.0,2,5
+2026-03-22,almoco,Domingo,843,231.0,28.0,2,6
+2026-03-22,cafe da manha,Domingo,611,360.0,28.0,2,6
+2026-03-22,jantar,Domingo,890,364.0,28.0,2,6
+2026-03-23,almoco,Segunda-feira,4099,974.0,0.0,2,0
+2026-03-23,cafe da manha,Segunda-feira,1196,439.0,0.0,2,0
+2026-03-23,jantar,Segunda-feira,3546,1456.0,0.0,2,0
+2026-03-24,almoco,Terça-feira,5003,913.0,38.0,2,1
+2026-03-24,cafe da manha,Terça-feira,1850,803.0,38.0,2,1
+2026-03-24,jantar,Terça-feira,3951,1644.0,38.0,2,1
+2026-03-25,almoco,Quarta-feira,5000,1226.0,1.0,2,2
+2026-03-25,cafe da manha,Quarta-feira,1954,957.0,1.0,2,2
+2026-03-25,jantar,Quarta-feira,3997,1999.0,1.0,2,2
+2026-03-26,almoco,Quinta-feira,4656,1032.0,12.0,2,3
+2026-03-26,cafe da manha,Quinta-feira,1707,750.0,12.0,2,3
+2026-03-26,jantar,Quinta-feira,3741,1667.0,12.0,2,3
+2026-03-27,almoco,Sexta-feira,4384,1332.0,0.0,2,4
+2026-03-27,cafe da manha,Sexta-feira,1739,853.0,0.0,2,4
+2026-03-27,jantar,Sexta-feira,3391,1591.0,0.0,2,4
+2026-03-29,almoco,Domingo,750,298.0,0.0,2,6
+2026-03-29,cafe da manha,Domingo,518,275.0,0.0,2,6
+2026-03-29,jantar,Domingo,859,316.0,0.0,2,6
+2026-03-30,almoco,Segunda-feira,4105,541.0,0.0,2,0
+2026-03-30,cafe da manha,Segunda-feira,1261,465.0,0.0,2,0
+2026-03-30,jantar,Segunda-feira,3525,1428.0,0.0,2,0
+2026-03-31,almoco,Terça-feira,5001,1136.0,0.0,2,1
+2026-03-31,cafe da manha,Terça-feira,1901,850.0,0.0,2,1
+2026-03-31,jantar,Terça-feira,3832,1840.0,0.0,2,1
+2026-04-01,almoco,Quarta-feira,4873,1436.0,0.0,2,2
+2026-04-01,cafe da manha,Quarta-feira,1971,933.0,0.0,2,2
+2026-04-01,jantar,Quarta-feira,3942,1487.0,0.0,2,2
+2026-04-02,almoco,Quinta-feira,5002,885.0,0.0,2,3
+2026-04-02,cafe da manha,Quinta-feira,1583,723.0,0.0,2,3
+2026-04-02,jantar,Quinta-feira,3063,1871.0,0.0,2,3
+2026-04-06,almoco,Segunda-feira,3766,796.0,0.0,2,0
+2026-04-06,cafe da manha,Segunda-feira,976,342.0,0.0,2,0
+2026-04-06,jantar,Segunda-feira,3330,1796.0,0.0,2,0
+2026-04-07,almoco,Terça-feira,4839,1910.0,19.0,2,1
+2026-04-07,cafe da manha,Terça-feira,1840,1090.0,19.0,2,1
+2026-04-07,jantar,Terça-feira,3778,1848.0,19.0,2,1
+2026-04-08,almoco,Quarta-feira,5000,1344.0,17.0,2,2
+2026-04-08,cafe da manha,Quarta-feira,1915,986.0,17.0,2,2
+2026-04-08,jantar,Quarta-feira,3750,1923.0,17.0,2,2
+2026-04-09,almoco,Quinta-feira,4522,1149.0,0.3,2,3
+2026-04-09,cafe da manha,Quinta-feira,1578,700.0,0.3,2,3
+2026-04-09,jantar,Quinta-feira,3692,1494.0,0.3,2,3
+2026-04-10,almoco,Sexta-feira,4211,1159.0,0.0,2,4
+2026-04-10,cafe da manha,Sexta-feira,1680,830.0,0.0,2,4
+2026-04-10,jantar,Sexta-feira,3174,1639.0,0.0,2,4
+2026-04-11,almoco,Sábado,1168,335.0,0.0,2,5
+2026-04-11,cafe da manha,Sábado,759,457.0,0.0,2,5
+2026-04-11,jantar,Sábado,1035,563.0,0.0,2,5
+2026-04-12,almoco,Domingo,934,254.0,17.0,2,6
+2026-04-12,cafe da manha,Domingo,701,456.0,17.0,2,6
+2026-04-12,jantar,Domingo,952,433.0,17.0,2,6
+2026-04-13,almoco,Segunda-feira,4017,402.0,3.0,2,0
+2026-04-13,cafe da manha,Segunda-feira,1149,375.0,3.0,2,0
+2026-04-13,jantar,Segunda-feira,3634,1366.0,3.0,2,0
+2026-04-14,almoco,Terça-feira,4981,1321.0,0.0,2,1
+2026-04-14,cafe da manha,Terça-feira,1867,870.0,0.0,2,1
+2026-04-14,jantar,Terça-feira,3842,1774.0,0.0,2,1
+2026-04-15,almoco,Quarta-feira,5006,1250.0,0.0,2,2
+2026-04-15,cafe da manha,Quarta-feira,1916,952.0,0.0,2,2
+2026-04-15,jantar,Quarta-feira,3804,2134.0,0.0,2,2
+2026-04-16,almoco,Quinta-feira,4286,1325.0,2.0,2,3
+2026-04-16,cafe da manha,Quinta-feira,1589,693.0,2.0,2,3
+2026-04-16,jantar,Quinta-feira,3474,1599.0,2.0,2,3
+2026-04-17,almoco,Sexta-feira,3959,1030.0,0.0,2,4
+2026-04-17,cafe da manha,Sexta-feira,1644,765.0,0.0,2,4
+2026-04-17,jantar,Sexta-feira,2836,1743.0,0.0,2,4
+2026-04-18,almoco,Sábado,904,301.0,0.0,2,5
+2026-04-18,cafe da manha,Sábado,650,394.0,0.0,2,5
+2026-04-18,jantar,Sábado,858,396.0,0.0,2,5
+2026-04-19,almoco,Domingo,739,286.0,0.0,2,6
+2026-04-19,cafe da manha,Domingo,559,351.0,0.0,2,6
+2026-04-19,jantar,Domingo,728,371.0,0.0,2,6
+2026-04-22,almoco,Quarta-feira,3976,767.0,1.0,2,2
+2026-04-22,cafe da manha,Quarta-feira,1018,280.0,1.0,2,2
+2026-04-22,jantar,Quarta-feira,3297,1545.0,1.0,2,2
+2026-04-23,almoco,Quinta-feira,4883,1534.0,0.1,2,3
+2026-04-23,cafe da manha,Quinta-feira,1861,912.0,0.1,2,3
+2026-04-23,jantar,Quinta-feira,3687,1775.0,0.1,2,3
+2026-04-24,almoco,Sexta-feira,6350,2323.0,23.0,2,4
+2026-04-24,cafe da manha,Sexta-feira,1815,1033.0,23.0,2,4
+2026-04-24,jantar,Sexta-feira,3317,1838.0,23.0,2,4
+2026-04-25,almoco,Sábado,1150,202.0,6.0,2,5
+2026-04-25,cafe da manha,Sábado,683,368.0,6.0,2,5
+2026-04-25,jantar,Sábado,1006,418.0,6.0,2,5
+2026-04-26,almoco,Domingo,954,257.0,3.0,2,6
+2026-04-26,cafe da manha,Domingo,713,430.0,3.0,2,6
+2026-04-26,jantar,Domingo,970,409.0,3.0,2,6
+2026-04-27,almoco,Segunda-feira,3829,764.0,0.0,2,0
+2026-04-27,cafe da manha,Segunda-feira,1181,434.0,0.0,2,0
+2026-04-27,jantar,Segunda-feira,3372,1393.0,0.0,2,0
+2026-04-28,almoco,Terça-feira,4896,1285.0,0.0,2,1
+2026-04-28,cafe da manha,Terça-feira,1814,862.0,0.0,2,1
+2026-04-28,jantar,Terça-feira,3718,1661.0,0.0,2,1
+2026-04-29,almoco,Quarta-feira,4630,1226.0,0.0,2,2
+2026-04-29,cafe da manha,Quarta-feira,1920,870.0,0.0,2,2
+2026-04-29,jantar,Quarta-feira,3749,1826.0,0.0,2,2
+2026-04-30,almoco,Quinta-feira,5000,879.0,0.0,2,3
+2026-04-30,cafe da manha,Quinta-feira,1586,726.0,0.0,2,3
+2026-04-30,jantar,Quinta-feira,3449,1502.0,0.0,2,3
+2026-05-02,almoco,Sábado,788,301.0,47.0,2,5
+2026-05-02,cafe da manha,Sábado,542,336.0,47.0,2,5
+2026-05-02,jantar,Sábado,812,449.0,47.0,2,5
+2026-05-03,almoco,Domingo,767,271.0,0.0,1,6
+2026-05-03,cafe da manha,Domingo,572,354.0,0.0,1,6
+2026-05-03,jantar,Domingo,809,397.0,0.0,1,6
+2026-05-04,almoco,Segunda-feira,3711,817.0,0.0,1,0
+2026-05-04,cafe da manha,Segunda-feira,1136,435.0,0.0,1,0
+2026-05-04,jantar,Segunda-feira,3283,1536.0,0.0,1,0
+2026-05-05,almoco,Terça-feira,4743,1272.0,0.0,1,1
+2026-05-05,cafe da manha,Terça-feira,1777,843.0,0.0,1,1
+2026-05-05,jantar,Terça-feira,3651,1824.0,0.0,1,1
+2026-05-06,almoco,Quarta-feira,4965,1346.0,0.0,1,2
+2026-05-06,cafe da manha,Quarta-feira,1844,883.0,0.0,1,2
+2026-05-06,jantar,Quarta-feira,3722,1944.0,0.0,1,2
+2026-05-07,almoco,Quinta-feira,4250,1282.0,0.0,1,3
+2026-05-07,cafe da manha,Quinta-feira,1612,770.0,0.0,1,3
+2026-05-07,jantar,Quinta-feira,3412,1831.0,0.0,1,3
+2026-05-08,almoco,Sexta-feira,3926,998.0,24.0,2,4
+2026-05-08,cafe da manha,Sexta-feira,1652,848.0,24.0,2,4
+2026-05-08,jantar,Sexta-feira,2790,1665.0,24.0,2,4
+2026-05-09,almoco,Sábado,1024,278.0,0.0,1,5
+2026-05-09,cafe da manha,Sábado,668,402.0,0.0,1,5
+2026-05-09,jantar,Sábado,905,458.0,0.0,1,5
+2026-05-10,almoco,Domingo,740,320.0,0.0,1,6
+2026-05-10,cafe da manha,Domingo,577,355.0,0.0,1,6
+2026-05-10,jantar,Domingo,787,439.0,0.0,1,6
+2026-05-11,almoco,Segunda-feira,3726,710.0,0.0,1,0
+2026-05-11,cafe da manha,Segunda-feira,1052,424.0,0.0,1,0
+2026-05-11,jantar,Segunda-feira,3392,1207.0,0.0,1,0
+2026-05-12,almoco,Terça-feira,4757,1314.0,0.0,1,1
+2026-05-12,cafe da manha,Terça-feira,1784,929.0,0.0,1,1
+2026-05-12,jantar,Terça-feira,3702,1696.0,0.0,1,1
+2026-05-13,almoco,Quarta-feira,5000,1097.0,0.0,1,2
+2026-05-13,cafe da manha,Quarta-feira,1882,978.0,0.0,1,2
+2026-05-13,jantar,Quarta-feira,3725,1901.0,0.0,1,2
+2026-05-14,almoco,Quinta-feira,4220,1365.0,0.0,1,3
+2026-05-14,cafe da manha,Quinta-feira,1622,767.0,0.0,1,3
+2026-05-14,jantar,Quinta-feira,3496,1667.0,0.0,1,3
+2026-05-15,almoco,Sexta-feira,4095,1186.0,0.0,1,4
+2026-05-15,cafe da manha,Sexta-feira,1684,846.0,0.0,1,4
+2026-05-15,jantar,Sexta-feira,3085,1523.0,0.0,1,4
+2026-05-16,almoco,Sábado,1151,380.0,0.0,1,5
+2026-05-16,cafe da manha,Sábado,748,443.0,0.0,1,5
+2026-05-16,jantar,Sábado,1004,603.0,0.0,1,5
+2026-05-18,almoco,Segunda-feira,3585,699.0,2.0,2,0
+2026-05-18,cafe da manha,Segunda-feira,986,335.0,2.0,2,0
+2026-05-18,jantar,Segunda-feira,3417,1052.0,2.0,2,0
+2026-05-19,almoco,Terça-feira,4756,1234.0,0.0,1,1
+2026-05-19,cafe da manha,Terça-feira,1819,917.0,0.0,1,1
+2026-05-19,jantar,Terça-feira,3695,1804.0,0.0,1,1
+2026-05-20,almoco,Quarta-feira,4947,1485.0,0.0,1,2
+2026-05-20,cafe da manha,Quarta-feira,1911,1022.0,0.0,1,2
+2026-05-20,jantar,Quarta-feira,3725,1763.0,0.0,1,2
+2026-05-21,almoco,Quinta-feira,4200,945.0,0.0,1,3
+2026-05-21,cafe da manha,Quinta-feira,1561,731.0,0.0,1,3
+2026-05-21,jantar,Quinta-feira,3357,1588.0,0.0,1,3
+2026-05-22,almoco,Sexta-feira,4066,1035.0,0.0,1,4
+2026-05-22,cafe da manha,Sexta-feira,1665,871.0,0.0,1,4
+2026-05-22,jantar,Sexta-feira,2898,1611.0,0.0,1,4
+2026-05-23,almoco,Sábado,1171,328.0,0.0,1,5
+2026-05-23,cafe da manha,Sábado,739,448.0,0.0,1,5
+2026-05-23,jantar,Sábado,1005,512.0,0.0,1,5
+2026-05-24,almoco,Domingo,931,313.0,0.0,1,6
+2026-05-24,cafe da manha,Domingo,681,442.0,0.0,1,6
+2026-05-24,jantar,Domingo,947,410.0,0.0,1,6
+2026-05-25,almoco,Segunda-feira,3638,766.0,0.0,1,0
+2026-05-25,cafe da manha,Segunda-feira,1175,484.0,0.0,1,0
+2026-05-25,jantar,Segunda-feira,3319,1609.0,0.0,1,0
+2026-05-26,almoco,Terça-feira,4627,1357.0,10.0,2,1
+2026-05-26,cafe da manha,Terça-feira,1812,979.0,10.0,2,1
+2026-05-26,jantar,Terça-feira,3560,1760.0,10.0,2,1
+2026-05-27,almoco,Quarta-feira,4736,1373.0,0.0,1,2
+2026-05-27,cafe da manha,Quarta-feira,1876,937.0,0.0,1,2
+2026-05-27,jantar,Quarta-feira,3544,1802.0,0.0,1,2
