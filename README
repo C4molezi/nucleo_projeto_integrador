@@ -1,0 +1,103 @@
+# Modelo preditivo de faltas diárias no RU (UFSM)
+
+Modelo preditivo de **Regressão Linear** em Python para estimar a quantidade diária de **faltas** (agendamentos sem comparecimento) no Restaurante Universitário da UFSM, a partir de uma view exportada em CSV.
+
+```
+FALTAS = TOTAL_AGENDAMENTOS - TOTAL_REFEICAO
+```
+
+A coluna `faltas` já vem calculada na view; o script a utiliza diretamente e apenas confere se ela respeita essa regra.
+
+## Requisitos
+
+- Python 3.9 ou superior
+- Bibliotecas: `pandas`, `numpy` e `scikit-learn`
+
+```bash
+pip install pandas numpy scikit-learn
+```
+
+## Como executar
+
+```bash
+python3 modelo_faltas_ru.py caminho/para/arquivo.csv
+```
+
+Exemplo:
+
+```bash
+python3 modelo_faltas_ru.py vw_faltas_diarias_ru_campus_i.csv
+```
+
+O único argumento (`caminho_csv`) é o caminho do CSV exportado da view. Para ver a ajuda:
+
+```bash
+python3 modelo_faltas_ru.py --help
+```
+
+## Formato esperado do CSV
+
+O arquivo deve conter as colunas abaixo. A capitalização dos nomes não importa, pois o script converte tudo para maiúsculas.
+
+| Coluna | Descrição |
+|---|---|
+| `data` | Data do registro (ex.: `2022-03-28`) |
+| `total_agendamentos` | Total de refeições agendadas no dia |
+| `total_refeicao` | Total de refeições efetivamente realizadas |
+| `faltas` | Faltas do dia (`total_agendamentos - total_refeicao`), variável a ser prevista |
+| `media_movel_7_dias` | Média móvel de faltas dos 7 dias anteriores |
+| `media_movel_30_dias` | Média móvel de faltas dos 30 dias anteriores |
+| `media_movel_90_dias` | Média móvel de faltas dos 90 dias anteriores |
+
+Valores `NULL` (texto) são tratados como ausentes. Outras colunas presentes no arquivo (como `dia_semana`) são ignoradas.
+
+## Como o modelo funciona
+
+1. **Leitura:** o CSV é lido com `pandas`, e `NULL` é interpretado como valor ausente.
+2. **Preparação:** descartam-se os registros com valores ausentes nas colunas necessárias e ordenam-se os dados por data.
+3. **Validação:** confere-se se `FALTAS` é igual a `TOTAL_AGENDAMENTOS - TOTAL_REFEICAO`. Se houver divergência, o script exibe um aviso no terminal (saída de erro) e segue a execução.
+4. **Divisão cronológica:** os primeiros 80% dos registros formam o treino e os 20% finais formam o teste, sem embaralhamento.
+5. **Treino:** ajusta-se uma `LinearRegression` com as médias móveis de 7, 30 e 90 dias como variáveis independentes.
+6. **Previsão:** as estimativas negativas são trocadas por 0 e o resultado é arredondado para inteiro.
+7. **Avaliação:** calculam-se MAE, RMSE e R² sobre o conjunto de teste, usando as previsões finais (não negativas e arredondadas).
+
+> As médias móveis da view usam apenas os dias anteriores ao dia previsto, o que evita vazamento de dados (*data leakage*).
+
+## Saída
+
+O programa imprime a quantidade de registros usados, as métricas e uma tabela com as colunas `DATA`, `FALTAS_REAIS` e `FALTAS_ESTIMADAS`.
+
+Exemplo de execução com `vw_faltas_diarias_ru_campus_i.csv`:
+
+```
+Registros válidos: 1034 | treino: 827 | teste: 207
+
+Métricas no conjunto de teste:
+  MAE: 855.3913
+  RMSE: 1061.2135
+  R²: 0.1898
+
+Faltas reais x estimadas:
+      DATA  FALTAS_REAIS  FALTAS_ESTIMADAS
+30/08/2025          1266              2738
+31/08/2025          1163              2728
+01/09/2025          2182              2711
+...
+```
+
+## Estrutura do código
+
+| Função | Responsabilidade |
+|---|---|
+| `ler_argumentos` | Lê o caminho do CSV via `argparse` |
+| `carregar_dados` | Lê o CSV, padroniza colunas e converte `DATA` para data |
+| `preparar_dados` | Remove registros com valores ausentes e ordena por data |
+| `validar_faltas` | Avisa se `FALTAS` diverge de `TOTAL_AGENDAMENTOS - TOTAL_REFEICAO` |
+| `dividir_treino_teste` | Separa 80% treino e 20% teste cronologicamente |
+| `treinar_modelo` | Ajusta a Regressão Linear |
+| `prever` | Gera previsões não negativas e inteiras |
+| `avaliar` | Calcula MAE, RMSE e R² |
+| `montar_tabela` | Monta a tabela `DATA`, `FALTAS_REAIS`, `FALTAS_ESTIMADAS` |
+ 
+## Autor 
+Gabriel Augusto Camolezi

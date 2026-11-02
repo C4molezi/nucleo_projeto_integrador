@@ -1,8 +1,0 @@
-pandas
-numpy
-statsmodels
-scikit-learn
-sqlalchemy
-psycopg2-binary
-matplotlib
-pytest
