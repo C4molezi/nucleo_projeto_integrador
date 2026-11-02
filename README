@@ -54,7 +54,7 @@ O arquivo deve conter as colunas abaixo. A capitalização dos nomes não import
 
 Valores `NULL` (texto) são tratados como ausentes. Outras colunas presentes no arquivo são ignoradas.
 
-## Como o modelo funciona
+## Como o modelo funciona 
 
 1. **Leitura:** o CSV é lido com `pandas`, e `NULL` é interpretado como valor ausente.
 2. **Preparação:** descartam-se os registros com valores ausentes nas colunas necessárias e ordenam-se os dados por data.
