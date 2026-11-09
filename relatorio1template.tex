@@ -1,0 +1,144 @@
+\documentclass{article}
+\usepackage{spconf,amsmath,graphicx}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[brazil]{babel}
+\usepackage{enumitem}
+\usepackage{csquotes}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    urlcolor=blue,
+    citecolor=black
+}
+
+% Title.
+% ------
+\title{Projeto Integrador I --- Relatório 1}
+%
+% Single address.
+% ---------------
+\name{Gabriel Augusto Camolezi}
+\address{Universidade Federal de Santa Maria (UFSM) \\
+         Campus Cachoeira do Sul \\
+         Projeto Integrador I --- 25 de setembro de 2026}
+
+\begin{document}
+\maketitle
+%
+\begin{abstract}
+Este relatório apresenta o projeto de análise e previsão dos agendamentos e dos não comparecimentos às refeições nos Restaurantes Universitários (RUs) da Universidade Federal de Santa Maria (UFSM). A partir de dados históricos, pretende-se identificar padrões de comportamento dos usuários e investigar métodos de previsão que possam auxiliar no planejamento da produção de refeições, reduzindo o desperdício de alimentos. São descritos o contexto, a motivação, os objetivos geral e específicos do projeto, além do cronograma de atividades previsto para as próximas quatro semanas.
+\end{abstract}
+%
+\begin{keywords}
+Restaurantes universitários, previsão de demanda, não comparecimento, análise de dados, UFSM
+\end{keywords}
+%
+\section{Introdução}
+\label{sec:intro}
+
+\subsection{Contexto geral}
+\label{ssec:contexto}
+
+Os Restaurantes Universitários (RUs) da Universidade Federal de Santa Maria (UFSM) atendem uma quantidade significativa de usuários por meio do agendamento de refeições. Nesse contexto, existe a necessidade de compreender o comportamento dos agendamentos e dos não comparecimentos às refeições previamente agendadas.
+
+O projeto está inserido no contexto de análise de dados e modelagem preditiva, buscando utilizar dados históricos relacionados aos RUs para identificar padrões e construir métodos capazes de estimar a quantidade de usuários que realizarão agendamentos e a quantidade de usuários que não comparecerão às refeições agendadas.
+
+A pergunta de pesquisa que orienta o projeto é:
+
+\begin{quote}
+\itshape
+É possível prever a quantidade de usuários que agendarão refeições e a quantidade de usuários que não comparecerão aos Restaurantes Universitários da UFSM?
+\end{quote}
+
+\subsection{Motivo da relevância do projeto}
+\label{ssec:relevancia}
+
+A relevância do projeto está relacionada à possibilidade de utilizar a análise preditiva para auxiliar no planejamento da quantidade de refeições que devem ser preparadas nos Restaurantes Universitários da UFSM. Caso as previsões de agendamentos e de não comparecimentos apresentem resultados suficientemente adequados, essas informações poderão ser consideradas no planejamento da produção de refeições.
+
+Dessa forma, uma estimativa mais precisa da quantidade de usuários que efetivamente comparecerão aos Restaurantes Universitários poderá contribuir para reduzir a produção excessiva de refeições e, consequentemente, evitar o desperdício de alimentos na Universidade.
+
+\subsection{O que se pretende alcançar}
+\label{ssec:objetivo-geral-intro}
+
+Pretende-se verificar, por meio da análise dos dados disponíveis, se é possível realizar previsões sobre a quantidade de usuários que agendarão refeições e sobre a quantidade de usuários que não comparecerão aos RUs da UFSM.
+
+Para isso, o projeto deverá explorar os dados, identificar padrões relevantes, analisar possíveis relações entre diferentes variáveis e testar métodos de previsão que possam ser aplicados ao problema.
+
+\section{Motivação}
+\label{sec:motivacao}
+
+A motivação do projeto está relacionada à necessidade de compreender melhor o comportamento dos agendamentos e dos não comparecimentos nos Restaurantes Universitários da UFSM. A disponibilidade de dados históricos possibilita investigar esse comportamento, buscando transformar os registros existentes em informações que possam auxiliar na compreensão da demanda.
+
+Além disso, o problema apresenta uma oportunidade de aplicação prática dos conhecimentos de Ciência de Dados e Inteligência Artificial, envolvendo etapas de obtenção e preparação dos dados, análise exploratória, visualização, identificação de padrões e desenvolvimento de modelos preditivos.
+
+\section{Objetivo Geral}
+\label{sec:objgeral}
+
+Investigar a possibilidade de prever a quantidade de usuários que agendarão refeições e a quantidade de usuários que não comparecerão aos Restaurantes Universitários da UFSM, utilizando dados históricos e técnicas de análise e modelagem preditiva.
+
+\section{Objetivos Específicos}
+\label{sec:objespec}
+
+\begin{enumerate}[label=\arabic*.]
+    \item \textbf{Levantar e organizar os dados} relacionados aos agendamentos, refeições e não comparecimentos dos Restaurantes Universitários da UFSM.
+
+    \item \textbf{Realizar uma análise exploratória dos dados}, utilizando estatísticas descritivas e visualizações para compreender o comportamento dos agendamentos e dos não comparecimentos.
+
+    \item \textbf{Investigar padrões e possíveis relações} entre os agendamentos, os não comparecimentos e outras variáveis disponíveis na base de dados.
+
+    \item \textbf{Avaliar a influência de fatores relevantes}, incluindo variáveis temporais e, quando houver dados adequados, informações relacionadas às condições meteorológicas e às avaliações dos Restaurantes Universitários.
+
+    \item \textbf{Selecionar e aplicar métodos de previsão} adequados ao problema, buscando estimar a quantidade de agendamentos e de não comparecimentos.
+
+    \item \textbf{Avaliar os resultados dos métodos utilizados}, verificando seu desempenho e suas limitações para o contexto dos Restaurantes Universitários da UFSM.
+
+    \item \textbf{Documentar os procedimentos e resultados obtidos}, apresentando as conclusões da investigação e as perspectivas de continuidade do projeto.
+\end{enumerate}
+
+\section{Cronograma --- Próximas Quatro Semanas}
+\label{sec:cronograma}
+
+\subsection{Até 02/10 --- Visualização dos dados}
+\label{ssec:etapa1}
+
+\begin{itemize}
+    \item Reproduzir em Python, utilizando \texttt{Matplotlib} e \texttt{Jupyter Notebook}, os gráficos correspondentes às visualizações já desenvolvidas em PostgreSQL a partir das bases de dados de avaliações e acessos dos Restaurantes Universitários.
+    \item Comparar os resultados obtidos em Python com os resultados das consultas e visualizações realizadas no PostgreSQL.
+    \item Organizar os gráficos produzidos para utilização nos próximos relatórios e análises do projeto.
+\end{itemize}
+
+\subsection{Até 09/10 --- Geração de dados sintéticos}
+\label{ssec:etapa2}
+
+\begin{itemize}
+    \item Analisar os dados reais de avaliações dos Restaurantes Universitários referentes a 2022, identificando os atributos relevantes para a geração dos dados sintéticos.
+    \item Calcular medidas estatísticas dos atributos selecionados, como média e desvio-padrão, e identificar as respectivas distribuições de probabilidade.
+    \item Definir, a partir dessas características estatísticas, um método de amostragem para gerar dados sintéticos referentes ao período de 2023 a 2026.
+    \item Gerar e validar os dados sintéticos, verificando se suas principais características estatísticas são compatíveis com as observadas na base real de 2022.
+    \item Documentar o processo de geração e identificar claramente os dados produzidos como sintéticos.
+\end{itemize}
+
+\subsection{Até 16/10 --- Segundo relatório do Projeto Integrador I}
+\label{ssec:etapa3}
+
+\begin{itemize}
+    \item Consolidar os resultados obtidos nas etapas anteriores.
+    \item Redigir o segundo relatório do Projeto Integrador I.
+    \item Revisar a metodologia, os resultados e as análises realizadas.
+    \item Finalizar e entregar o relatório até a data estabelecida.
+\end{itemize}
+
+\subsection{Até 23/10 --- Investigar relação entre chuva e comportamento dos usuários}
+\label{ssec:etapa4}
+
+\begin{itemize}
+    \item Integrar os dados meteorológicos do Instituto Nacional de Meteorologia (INMET) aos dados dos Restaurantes Universitários.
+    \item Investigar a existência de correlação entre a ocorrência e/ou intensidade de chuva e variáveis relacionadas ao funcionamento dos RUs, como quantidade de agendamentos, acessos e não comparecimentos.
+    \item Definir a escala temporal adequada para a análise, considerando especialmente a relação entre data, horário da refeição e ocorrência de chuva.
+    \item Calcular e interpretar as correlações encontradas, distinguindo associação estatística de relação causal.
+    \item Produzir visualizações que auxiliem na interpretação dos resultados.
+\end{itemize}
+
+\end{document}
