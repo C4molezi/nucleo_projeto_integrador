@@ -1,0 +1,199 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[brazilian]{babel}
+\usepackage{amsmath,amssymb}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{natbib}
+\usepackage{tabularx}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.6\baselineskip}
+\renewcommand{\arraystretch}{1.15}
+
+\title{\large Previsão de Absenteísmo no
+Restaurante Universitário da UFSM
+por Regressão Linear Múltipla
+com Médias Móveis e Sazonalidade Semanal}
+\author{Gabriel Augusto Camolezi\\
+\small Curso de Ciência de Dados e Inteligência Artificial\\
+\small Universidade Federal de Santa Maria (UFSM), Campus Cachoeira do Sul\\
+\small Projeto Integrador I}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+O não comparecimento de comensais que agendaram refeição gera sobreprodução e desperdício nos restaurantes universitários (RUs). Objetivo: desenvolver e avaliar um modelo de regressão linear múltipla para prever a quantidade diária de faltas no RU do Campus I da UFSM. Metodologia: alvo = agendamentos -- refeições servidas; preditores: médias móveis de 7, 30 e 90 dias, agendamentos do dia e dia da semana em one-hot; validação cronológica 80\%/20\%, previsões truncadas em zero e arredondadas, e comparação com um baseline por dia da semana. Resultados: nos 207 dias de teste, a regressão obteve MAE de 335,85, RMSE de 433,11, $R^2$ de 0,865 e WAPE de 12,87\%, contra 780,66, 937,43, 0,368 e 29,92\% do baseline. Contribuição: um modelo parcimonioso, interpretável e de baixo custo computacional que prevê diretamente as faltas, subsidiando o planejamento da produção de refeições.
+
+\textbf{Palavras-chave:} absenteísmo; restaurante universitário; regressão linear múltipla; médias móveis; previsão de demanda.
+\end{abstract}
+
+\section{Introdução}
+
+Em restaurantes universitários (RUs) com agendamento prévio de refeições, a produção é planejada a partir das reservas, mas parte dos comensais não comparece. Nos registros válidos analisados neste trabalho (RU do Campus I da UFSM, de 27/06/2022 a 27/05/2026), em média 35,8\% dos agendamentos diários não se converteram em refeições servidas, o que equivale a cerca de 2.447 faltas por dia. Cada falta é alimento produzido e não consumido, com impacto sobre o custo operacional, o orçamento da assistência estudantil e a sustentabilidade do serviço.
+
+A literatura associa a previsão de demanda de curto prazo à redução do desperdício em serviços de alimentação coletiva \citep{rodrigues2024machine} e registra aplicações de aprendizado de máquina à estimativa do público e da produção de refeições em RUs brasileiros \citep{rocha2011utilizaccao,de2021metodo}. Esses trabalhos, contudo, concentram-se na previsão do total de refeições servidas, em geral por modelos de maior complexidade. Este artigo adota perspectiva complementar: prever diretamente as faltas por meio de uma regressão linear parcimoniosa, cujos coeficientes são interpretáveis pela equipe de gestão.
+
+O objetivo é especificar e avaliar um modelo de regressão linear múltipla que estime a quantidade diária de faltas no RU da UFSM a partir de médias móveis históricas, do total de agendamentos do dia e da sazonalidade semanal, verificando, em partição cronológica de teste, se ele supera um baseline sazonal ingênuo segundo MAE, RMSE, $R^2$ e WAPE.
+
+\section{Referencial Teórico}
+
+\textbf{Demanda e desperdício em alimentação coletiva.} \citet{rodrigues2024machine} investigam modelos de aprendizado de máquina para previsão de demanda de curto prazo em serviços de catering, mostrando que estimativas mais precisas contribuem para conter a sobreprodução e o desperdício. No contexto brasileiro, \citet{rocha2011utilizaccao} empregam redes neurais artificiais para determinar o número de refeições diárias de um RU, e \citet{de2021metodo} avaliam algoritmos como Random Forest e SVR para prever a produção de refeições, destacando o papel de atributos de calendário.
+
+\textbf{Modelagem supervisionada e engenharia de atributos.} Na regressão linear múltipla, a variável resposta é descrita como combinação linear de preditores, com coeficientes estimados por mínimos quadrados ordinários, o que preserva a interpretabilidade do efeito de cada variável \citep{gareth2023introduction}. \citet{kuhn2019feature} destacam que o desempenho de modelos preditivos depende da construção de atributos informativos: estatísticas derivadas do histórico, como médias móveis, incorporam inércia e tendência, e variáveis categóricas devem ser codificadas em indicadores (one-hot) para não impor ordenação numérica inexistente.
+
+\textbf{Séries temporais e métricas de acurácia.} \citet{hyndman2012principles} enfatizam que a acurácia deve ser medida em dados não usados no ajuste, preservando a ordem cronológica, e que métodos simples de referência (benchmarks) devem servir de parâmetro de comparação. \citet{hyndman2006another} mostram que MAE e RMSE dependem da escala da série e que erros percentuais pontuais se tornam instáveis quando valores observados são pequenos, razão pela qual convém combinar medidas e comparar com um método de referência. O WAPE, que normaliza o erro absoluto agregado pelo total observado, fornece uma medida percentual estável e de fácil leitura gerencial.
+
+\section{Metodologia}
+
+\subsection{Coleta, saneamento e variável-alvo}
+
+Os dados provêm de uma view que consolida, por dia, os agendamentos e as refeições servidas no RU do Campus I, exportada em CSV (1.114 registros diários). O script lê o arquivo, padroniza os nomes das colunas, trata o texto ``NULL'' como valor ausente, remove os registros incompletos (80, em sua maioria nas médias móveis do início da série, ainda sem 90 dias de histórico), ordena por data e confere a consistência da variável-alvo, restando 1.034 registros válidos (27/06/2022 a 27/05/2026). A variável-alvo, para o dia $t$, é:
+
+\begin{equation}
+\text{FALTAS}_t = \text{TOTAL\_AGENDAMENTOS}_t - \text{TOTAL\_REFEICOES}_t.
+\label{eq:faltas}
+\end{equation}
+
+\subsection{Engenharia de características}
+
+Os preditores são: (i) as médias móveis de faltas dos 7, 30 e 90 dias anteriores (MM7, MM30 e MM90), calculadas na própria view sobre a janela de datas $[t-k,t-1]$ -- verificação sobre o CSV confirmou que o dia corrente não entra na janela, o que evita vazamento do alvo; (ii) o total de agendamentos do dia (AGEND$_t$), informação que precisa estar disponível no momento da previsão; e (iii) o dia da semana, codificado em seis variáveis binárias $D_j$ (segunda a sábado), com o domingo (0) como categoria de referência, evitando colinearidade perfeita com o intercepto; as categorias são fixadas em 0--6 para que treino e teste tenham as mesmas colunas.
+
+\subsection{Validação temporal}
+
+A amostra ordenada é dividida cronologicamente: os primeiros 80\% (827 dias, de 27/06/2022 a 29/08/2025) formam o treino e os 20\% finais (207 dias, de 30/08/2025 a 27/05/2026) formam o teste.
+
+\subsection{Regressão linear múltipla e baseline}
+
+O modelo é especificado na Equação~\ref{eq:modelo} e estimado por mínimos quadrados ordinários (MQO), $\hat{\boldsymbol{\beta}}=(X^{\top}X)^{-1}X^{\top}y$, com o módulo \texttt{LinearRegression} do Scikit-learn:
+
+\begin{equation}
+\hat{y}_t = \beta_0 + \beta_1\mathrm{MM7}_t + \beta_2\mathrm{MM30}_t + \beta_3\mathrm{MM90}_t + \beta_4\mathrm{AGEND}_t + \sum_{j=1}^{6}\gamma_j D_{j,t}.
+\label{eq:modelo}
+\end{equation}
+
+O baseline é a média histórica de faltas do mesmo dia da semana, calculada exclusivamente no treino, sendo $\Omega(t)$ o conjunto de dias de treino com o mesmo dia da semana de $t$ (na ausência de histórico, usa-se a média global do treino):
+
+\begin{equation}
+\hat{y}_t^{(B)} = \frac{1}{|\Omega(t)|}\sum_{s\in\Omega(t)}y_s.
+\label{eq:baseline}
+\end{equation}
+
+\subsection{Pós-processamento e métricas}
+
+Como as faltas são uma contagem, as previsões são limitadas inferiormente a zero e arredondadas para inteiros (Equação~\ref{eq:pos}). Com $n$ dias de teste, valores observados $y$ e previstos $\hat{y}^{*}$, e somatórios em $t=1,\ldots,n$, as métricas são definidas nas Equações~\ref{eq:mae}--\ref{eq:wape}.
+
+\begin{equation}
+\hat{y}^{*}_t = \operatorname{round}\!\left(\max\{0,\hat{y}_t\}\right).
+\label{eq:pos}
+\end{equation}
+
+\begin{subequations}\label{eq:metricas}
+\begin{align}
+\mathrm{MAE} &= \frac{1}{n}\sum_{t=1}^{n}|y_t-\hat{y}^{*}_t|, \label{eq:mae}\\
+\mathrm{RMSE} &= \sqrt{\frac{1}{n}\sum_{t=1}^{n}(y_t-\hat{y}^{*}_t)^2}, \label{eq:rmse}\\
+R^2 &= 1-\frac{\sum_{t=1}^{n}(y_t-\hat{y}^{*}_t)^2}{\sum_{t=1}^{n}(y_t-\bar{y})^2}, \label{eq:r2}\\
+\mathrm{WAPE}\,(\%) &= 100\times\frac{\sum_{t=1}^{n}|y_t-\hat{y}^{*}_t|}{\sum_{t=1}^{n}y_t}. \label{eq:wape}
+\end{align}
+\end{subequations}
+
+\begin{table}[htbp]
+\centering
+\small
+\caption{Fluxo dos dados e etapas do modelo (\texttt{modelo\_faltas\_ru.py}).}
+\label{tab:fluxo}
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{0.15\textwidth}>{\raggedright\arraybackslash}p{0.17\textwidth}XX@{}}
+\toprule
+Etapa & Entrada & Operação & Saída \\
+\midrule
+1. Ingestão & CSV da view (1.114 dias) & Leitura; colunas em maiúsculas; ``NULL'' $\to$ ausente & Tabela diária bruta \\
+2. Saneamento & Tabela bruta & Remoção de ausentes; ordenação por data; checagem da Eq.~\ref{eq:faltas} & 1.034 registros válidos \\
+3. Partição & Registros ordenados & Corte cronológico 80/20, sem embaralhamento & Treino (827); teste (207) \\
+4. Modelagem & Treino e teste & MQO (Eq.~\ref{eq:modelo}); baseline por dia da semana (Eq.~\ref{eq:baseline}) & Previsões brutas \\
+5. Avaliação & Previsões e valores reais & Pós-processamento (Eq.~\ref{eq:pos}); métricas (Eqs.~\ref{eq:metricas}); resíduos & Tabelas~\ref{tab:desempenho} a~\ref{tab:residuos} \\
+\bottomrule
+\end{tabularx}
+\begin{flushleft}\footnotesize Fonte: elaborado pelo autor a partir do código-fonte do modelo.\end{flushleft}
+\end{table}
+
+\section{Resultados Esperados e Discussão Metodológica}
+
+Os valores desta seção foram obtidos executando o script \texttt{modelo\_faltas\_ru.py} sobre o CSV descrito na Seção 3 (treino de 827 e teste de 207 dias). A Tabela~\ref{tab:desempenho} compara a regressão com o baseline: a regressão reduz o MAE em 57,0\%, o RMSE em 53,8\% e o WAPE em 17,0 pontos percentuais, e o $R^2$ passa de 0,368 para 0,865, isto é, o modelo explica cerca de 86,5\% da variabilidade das faltas no teste. O WAPE de 12,87\% é o erro absoluto total relativo ao total observado, e não uma taxa de acerto.
+
+\begin{table}[htbp]
+\centering
+\small
+\caption{Desempenho no conjunto de teste (207 dias).}
+\label{tab:desempenho}
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+Modelo & MAE & RMSE & $R^2$ & WAPE (\%) \\
+\midrule
+Regressão linear múltipla & 335,85 & 433,11 & 0,865 & 12,87 \\
+Baseline (média por dia da semana) & 780,66 & 937,43 & 0,368 & 29,92 \\
+\bottomrule
+\end{tabular}
+\begin{flushleft}\footnotesize Fonte: saída do script \texttt{modelo\_faltas\_ru.py}. MAE e RMSE em número de faltas.\end{flushleft}
+\end{table}
+
+O baseline depende apenas do dia da semana e é estático: não reage a mudanças de nível nem ao volume de reservas do dia. Isso é relevante porque a média de faltas no teste (2.610) foi 8,4\% superior à do treino (2.407). A regressão incorpora o nível recente (MM) e o volume diário (AGEND, correlacionado a 0,86 com a variável-alvo), e superou o baseline em 74,9\% dos dias de teste. Cada 100 agendamentos adicionais associam-se a cerca de 22 faltas a mais ($\beta_4\approx 0,22$), MM7 ($\approx 0,32$) e MM90 ($\approx 0,39$) carregam a inércia da série, e MM30 é praticamente nula ($\approx -0,001$), compatível com sua colinearidade com MM90 ($r=0,72$). A Tabela~\ref{tab:dias} desagrega o erro por dia da semana.
+
+\begin{table}[htbp]
+\centering
+\scriptsize
+\caption{Erro por dia da semana no teste (MAE em faltas).}
+\label{tab:dias}
+\begin{tabular}{@{}lrrrrr@{}}
+\toprule
+Dia & $n$ & Faltas reais (média) & MAE regressão & MAE baseline & WAPE regr. (\%) \\
+\midrule
+Domingo & 19 & 1.063,2 & 143,9 & 88,7 & 13,5 \\
+Segunda & 33 & 2.201,3 & 278,7 & 618,6 & 12,7 \\
+Terça & 34 & 3.276,3 & 447,4 & 1.106,6 & 13,7 \\
+Quarta & 36 & 3.379,7 & 411,2 & 1.047,6 & 12,2 \\
+Quinta & 34 & 2.805,3 & 314,1 & 900,5 & 11,2 \\
+Sexta & 31 & 3.040,3 & 415,0 & 1.016,1 & 13,7 \\
+Sábado & 20 & 1.231,8 & 201,2 & 102,1 & 16,3 \\
+\bottomrule
+\end{tabular}
+\begin{flushleft}\footnotesize Fonte: elaborado pelo autor a partir das previsões do script.\end{flushleft}
+\end{table}
+
+Nos dias úteis, o MAE da regressão é 55\% a 65\% menor que o do baseline. Em domingos e sábados, porém, o baseline foi melhor. São dias de baixo volume (médias de 1.063 e 1.232 faltas) e com poucas observações (29 domingos em toda a série); como o modelo usa coeficientes comuns, sem interações com o dia da semana, é plausível que se ajuste menos a esse regime, hipótese a ser testada.
+
+\begin{table}[htbp]
+\centering
+\small
+\caption{Diagnóstico dos resíduos ($y-\hat{y}^{*}$) no teste.}
+\label{tab:residuos}
+\begin{tabular}{@{}lrr@{}}
+\toprule
+Estatística & Regressão linear & Baseline \\
+\midrule
+Viés médio (faltas) & 188,9 & 285,7 \\
+Desvio-padrão dos resíduos & 390,7 & 895,0 \\
+Mediana do erro absoluto & 284 & 837 \\
+Percentil 90 do erro absoluto & 649,8 & 1.393 \\
+Autocorrelação dos resíduos (lag 1) & 0,27 & 0,77 \\
+\bottomrule
+\end{tabular}
+\begin{flushleft}\footnotesize Fonte: elaborado pelo autor a partir das previsões do script.\end{flushleft}
+\end{table}
+
+Os resíduos (Tabela~\ref{tab:residuos}) confirmam o ganho de sensibilidade: a autocorrelação cai de 0,77 para 0,27, pois as médias móveis absorvem grande parte da dinâmica de nível, e o desvio-padrão dos erros cai de 895,0 para 390,7. Persistem, contudo, viés positivo (subestimação em 68,6\% dos dias, coerente com o aumento de nível no teste) e autocorrelação residual moderada, indícios de efeitos não capturados, como calendário e clima. Nenhuma das 207 previsões brutas foi negativa; logo, o truncamento em zero atuou apenas como salvaguarda.
+
+\section{Considerações Finais}
+
+Uma regressão linear múltipla com médias móveis de 7, 30 e 90 dias, total de agendamentos e dia da semana em one-hot reduziu o erro de previsão de faltas no RU da UFSM a menos da metade do erro de um baseline sazonal (WAPE de 12,87\%). A contribuição prática é um instrumento simples, rápido de treinar e interpretável, que permite ajustar a produção ao volume de faltas esperado e reduzir o desperdício.
+
+Limitações: (i) o total de agendamentos do próprio dia precisa ser conhecido no momento da previsão e se relaciona mecanicamente com o alvo (Eq.~\ref{eq:faltas}), de modo que a previsão antecipada exigiria prevê-lo; (ii) há uma única partição cronológica, sem origem móvel nem intervalos de previsão; (iii) não há clima, cardápio, feriados ou recessos; (iv) o baseline foi superior nos fins de semana; (v) a base cobre um único campus. Propõem-se, como trabalhos futuros, variáveis exógenas (precipitação do INMET, avaliações de cardápio, calendário acadêmico), previsão separada dos agendamentos, interações com o dia da semana, regularização, validação com origem móvel e intervalos de previsão.
+
+\bibliographystyle{plainnat}
+\bibliography{prism-uploads/bibtex}
+
+\end{document}
