@@ -1,0 +1,142 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[brazil]{babel}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{listings}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.6\baselineskip}
+
+\title{Modelo Preditivo de Faltas Diárias no Restaurante Universitário da UFSM}
+\author{Projeto Integrador I}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section{Fundamentação Teórica e Trabalhos Relacionados}
+
+\subsection{Fundamentação teórica e mapeamento de conceitos}
+
+A previsão de demanda em serviços de alimentação coletiva é essencial para mitigar o desperdício de alimentos e otimizar a gestão de suprimentos. No Restaurante Universitário (RU) da Universidade Federal de Santa Maria (UFSM), a estimativa do volume de ausências (faltas) apoia-se na relação entre o total de agendamentos efetuados e o consumo efetivamente registrado:
+
+\begin{equation}
+    \text{Faltas} = \text{Total de agendamentos} - \text{Total de refeições}.
+\end{equation}
+
+O fenômeno é modelado por regressão linear múltipla, que estabelece uma dependência funcional entre a variável-alvo e os regressores explicativos \cite{gareth2023introduction}.
+
+A modelagem preditiva de séries temporais operacionais requer engenharia estruturada de atributos \cite{kuhn2019feature}. Incorporam-se médias móveis históricas de 7, 30 e 90 dias para capturar tendências e inércia temporal. Para representar a sazonalidade semanal sem impor uma ordenação ordinal inadequada aos dias da semana, aplica-se codificação \textit{one-hot}, tendo o domingo (categoria 0) como referência \cite{kuhn2019feature}. A validação emprega uma divisão cronológica dos dados em 80\% para treino e 20\% para teste, preservando a ordem temporal e evitando vazamento de dados \cite{hyndman2012principles}.
+
+Como a variável-alvo representa uma contagem discreta de pessoas, as previsões são limitadas inferiormente a zero e arredondadas para números inteiros. A avaliação compara o modelo com um \textit{baseline} histórico, definido pela média de faltas por dia da semana calculada no conjunto de treino. São utilizadas as métricas MAE, RMSE, $R^2$ e Erro Percentual Absoluto Ponderado (WAPE), empregadas na avaliação da acurácia de previsões \cite{hyndman2006another}.
+
+\subsection{Trabalhos relacionados}
+
+A estimativa de demandas em restaurantes universitários é abordada por diferentes perspectivas. Rocha, Matos e Frei \cite{rocha2011utilizaccao} aplicaram Redes Neurais Artificiais (RNA) para estimar o público diário em restaurantes universitários, demonstrando a capacidade de arquiteturas não lineares no mapeamento de demandas operacionais. De forma análoga, de Faria Santos, Saqui e dos Santos \cite{de2021metodo} avaliaram algoritmos de aprendizado de máquina, como \textit{Random Forest} e SVR, na previsão da produção de refeições em restaurantes universitários brasileiros, destacando o impacto de atributos de calendário.
+
+Na literatura sobre sustentabilidade em serviços de alimentação, Rodrigues et al. \cite{rodrigues2024machine} investigaram modelos preditivos de curto prazo para reduzir o desperdício em serviços de \textit{catering}, evidenciando que estimativas precisas podem conter a sobreprodução.
+
+\subsection{Contribuição do projeto}
+
+Enquanto os trabalhos correlatos se concentram na estimativa direta do total de refeições servidas por meio de modelos complexos, como RNAs e outros métodos de aprendizado de máquina, este projeto prevê diretamente as faltas. A integração do total de agendamentos com médias móveis temporais de 7, 30 e 90 dias em uma regressão linear parcimoniosa busca oferecer explicabilidade, baixo custo computacional e suporte ao planejamento do RU da UFSM.
+
+\section{Metodologia de Desenvolvimento}
+
+A fundamentação apresentada orienta as decisões de implementação descritas nesta seção. O projeto foi conduzido em etapas, desde a organização das atividades e a preparação dos dados até o desenvolvimento e a avaliação do modelo preditivo.
+
+\subsection{Condução do projeto e ferramentas utilizadas}
+
+Inicialmente, os objetivos, as definições e as atividades foram organizados no Notion. O GitHub foi utilizado para armazenar e versionar os arquivos do projeto, permitindo acompanhar a evolução da implementação.
+
+Na preparação dos dados, foram utilizadas consultas e visões (\textit{views}) em PostgreSQL para reunir informações relacionadas ao Restaurante Universitário. Também foram considerados dados meteorológicos do INMET e informações de avaliações de cardápios durante a exploração do problema. Em seguida, os dados foram organizados para análise e visualização. A implementação registrada no repositório evoluiu até um modelo de regressão linear voltado à estimativa da quantidade diária de faltas.
+
+As ferramentas utilizadas foram:
+\begin{itemize}
+    \item Python para a implementação do modelo;
+    \item Pandas e NumPy para manipulação, organização e operações sobre os dados;
+    \item Scikit-learn para implementação da regressão linear e cálculo de métricas;
+    \item PostgreSQL e SQL para consulta, integração e preparação dos dados armazenados em banco de dados;
+    \item Git e GitHub para versionamento do código e acompanhamento das alterações;
+    \item Notion para organização das definições, ferramentas e tarefas do projeto;
+    \item Jupyter e Matplotlib como apoio à exploração e visualização dos dados, conforme registrado na documentação do projeto.
+\end{itemize}
+
+\subsection{Desenvolvimento do modelo preditivo}
+
+A implementação atual utiliza uma base diária de faltas no RU Campus I. A variável-alvo corresponde à quantidade de faltas, calculada pela diferença entre o total de agendamentos e o total de refeições efetivamente realizadas. As variáveis explicativas utilizadas são:
+
+\begin{itemize}
+    \item médias móveis de faltas dos 7, 30 e 90 dias anteriores;
+    \item total de agendamentos do dia;
+    \item dia da semana, representado por codificação \textit{one-hot}.
+\end{itemize}
+
+O modelo foi implementado em Python 3 com o módulo \texttt{LinearRegression} da biblioteca Scikit-learn, que ajusta os coeficientes pelo método dos mínimos quadrados ordinários. Pandas e NumPy foram utilizados para manipulação e estruturação dos dados. As previsões negativas foram limitadas a zero e arredondadas para números inteiros, por meio do pós-processamento correspondente a \texttt{np.clip(previsoes, 0, None).round()}.
+
+A base foi ordenada cronologicamente e dividida em 80\% para treinamento e 20\% para teste, preservando a ordem temporal. Como referência de comparação, implementou-se um \textit{baseline} que estima as faltas pela média histórica observada para o mesmo dia da semana, calculada somente com os dados de treinamento.
+
+\subsection{Testes e avaliação}
+
+O desempenho foi avaliado no conjunto de teste por meio das métricas MAE, RMSE, $R^2$ e WAPE. Os resultados registrados no README do repositório são apresentados na Tabela~\ref{tab:resultados}.
+
+\begin{table}[htbp]
+    \centering
+    \caption{Desempenho dos modelos no conjunto de teste}
+    \label{tab:resultados}
+    \begin{tabular}{lrrrr}
+        \toprule
+        Modelo & MAE & RMSE & $R^2$ & WAPE \\
+        \midrule
+        Regressão linear & 335,8454 & 433,1125 & 0,8650 & 12,870\% \\
+        \textit{Baseline} & 780,6618 & 937,4285 & 0,3678 & 29,916\% \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+Os resultados indicam que a regressão linear apresentou desempenho superior ao \textit{baseline} nas métricas reportadas. O $R^2$ de 0,865 indica que o modelo explicou aproximadamente 86,5\% da variabilidade das faltas no conjunto de teste. O WAPE de 12,870\% representa o erro percentual absoluto ponderado e não deve ser interpretado diretamente como uma taxa de acerto.
+
+A divisão temporal utilizou 827 registros para treinamento e 207 para teste. O primeiro dia do conjunto de teste foi 30/08/2025.
+
+\subsection{Limitações e pontos de atenção}
+
+Embora chuva e avaliações de cardápios tenham sido consideradas no planejamento e na exploração, essas variáveis não integram o modelo atual. O modelo também não considera explicitamente feriados, recessos ou outros eventos do calendário acadêmico.
+
+O uso do total de agendamentos do próprio dia pressupõe que essa informação esteja disponível no momento da previsão. Caso se pretenda prever as faltas antes do encerramento dos agendamentos, essa variável deverá ser revista ou prevista separadamente.
+
+\subsection{Considerações finais}
+
+A solução implementada constitui um modelo funcional para estimar a quantidade diária de faltas no Restaurante Universitário da UFSM -- Campus I. A comparação com o \textit{baseline} indica ganho relevante de desempenho na partição de teste utilizada.
+
+O escopo efetivamente implementado é mais restrito do que a proposta inicial: o modelo atual prevê faltas e utiliza o total de agendamentos como variável de entrada, mas não realiza uma previsão independente dos agendamentos. A inclusão de variáveis climáticas e de calendário, a validação temporal mais abrangente e a criação de testes automatizados são próximos passos importantes.
+
+\begin{thebibliography}{99}
+
+\bibitem{defariasantos2021}
+DE FARIA SANTOS, Y. D. C.; SAQUI, D.; DOS SANTOS, P. C. Um método baseado em aprendizado de máquina para previsão da produção de refeições em restaurantes universitários. In: SIMPÓSIO BRASILEIRO DE SISTEMAS DE INFORMAÇÃO (SBSI), 17., 2021. \textit{Anais}\ldots SBC, 2021.
+
+\bibitem{gareth2023}
+GARETH, J.; WITTEN, D.; HASTIE, T.; TIBSHIRANI, R.; TAYLOR, J. \textit{An introduction to statistical learning: With applications in Python}. 2. ed. Springer, 2023.
+
+\bibitem{hyndman2012}
+HYNDMAN, R. J.; ATHANASOPOULOS, G. \textit{Forecasting: Principles and practice}. 2. ed. Melbourne: OTexts, 2012.
+
+\bibitem{hyndman2006}
+HYNDMAN, R. J.; KOEHLER, A. B. Another look at measures of forecast accuracy. \textit{International Journal of Forecasting}, v. 22, n. 4, p. 679--688, 2006.
+
+\bibitem{kuhn2019}
+KUHN, M.; JOHNSON, K. \textit{Feature engineering and selection: A practical approach for predictive models}. Boca Raton: Chapman and Hall/CRC, 2019.
+
+\bibitem{rocha2011}
+ROCHA, J. C.; MATOS, F. D.; FREI, F. Utilização de redes neurais artificiais para a determinação do número de refeições diárias de um restaurante universitário. \textit{Revista de Nutrição}, v. 24, n. 5, p. 735--742, 2011.
+
+\bibitem{rodrigues2024}
+RODRIGUES, M.; MIGUEIS, V.; FREITAS, S.; MACHADO, T. Machine learning models for short-term demand forecasting in food catering services: A solution to reduce food waste. \textit{Journal of Cleaner Production}, v. 435, art. 140265, p. 1--12, 2024.
+
+\end{thebibliography}
+
+\end{document}
