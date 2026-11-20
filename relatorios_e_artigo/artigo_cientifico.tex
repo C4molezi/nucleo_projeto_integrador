@@ -19,6 +19,7 @@ Restaurante Universitário da UFSM
 por Regressão Linear Múltipla
 com Médias Móveis e Sazonalidade Semanal}
 \author{Gabriel Augusto Camolezi\\
+Luan Portella\\
 \small Curso de Ciência de Dados e Inteligência Artificial\\
 \small Universidade Federal de Santa Maria (UFSM), Campus Cachoeira do Sul\\
 \small Projeto Integrador I}
@@ -28,7 +29,7 @@ com Médias Móveis e Sazonalidade Semanal}
 \maketitle
 
 \begin{abstract}
-O não comparecimento de comensais que agendaram refeição gera sobreprodução e desperdício nos restaurantes universitários (RUs). Objetivo: desenvolver e avaliar um modelo de regressão linear múltipla para prever a quantidade diária de faltas no RU do Campus I da UFSM. Metodologia: alvo = agendamentos -- refeições servidas; preditores: médias móveis de 7, 30 e 90 dias, agendamentos do dia e dia da semana em one-hot; validação cronológica 80\%/20\%, previsões truncadas em zero e arredondadas, e comparação com um baseline por dia da semana. Resultados: nos 207 dias de teste, a regressão obteve MAE de 335,85, RMSE de 433,11, $R^2$ de 0,865 e WAPE de 12,87\%, contra 780,66, 937,43, 0,368 e 29,92\% do baseline. Contribuição: um modelo parcimonioso, interpretável e de baixo custo computacional que prevê diretamente as faltas, subsidiando o planejamento da produção de refeições.
+O não comparecimento de comensais, que são os alunos que compartilham uma refeição as refeições no RU, que agendaram refeição gera sobreprodução e desperdício nos restaurantes universitários (RUs). Objetivo: desenvolver e avaliar um modelo de regressão linear múltipla para prever a quantidade diária de faltas no RU do Campus I da UFSM. Metodologia: alvo = agendamentos -- refeições servidas; preditores: médias móveis de 7, 30 e 90 dias, agendamentos do dia e dia da semana em one-hot; validação cronológica 80\%/20\%, previsões truncadas em zero e arredondadas, e comparação com um baseline por dia da semana. Resultados: nos 207 dias de teste, a regressão obteve MAE de 335,85, RMSE de 433,11, $R^2$ de 0,865 e WAPE de 12,87\%, contra 780,66, 937,43, 0,368 e 29,92\% do baseline. Contribuição: um modelo parcimonioso, interpretável e de baixo custo computacional que prevê diretamente as faltas, subsidiando o planejamento da produção de refeições.
 
 \textbf{Palavras-chave:} absenteísmo; restaurante universitário; regressão linear múltipla; médias móveis; previsão de demanda.
 \end{abstract}
@@ -37,23 +38,23 @@ O não comparecimento de comensais que agendaram refeição gera sobreprodução
 
 Em restaurantes universitários (RUs) com agendamento prévio de refeições, a produção é planejada a partir das reservas, mas parte dos comensais não comparece. Nos registros válidos analisados neste trabalho (RU do Campus I da UFSM, de 27/06/2022 a 27/05/2026), em média 35,8\% dos agendamentos diários não se converteram em refeições servidas, o que equivale a cerca de 2.447 faltas por dia. Cada falta é alimento produzido e não consumido, com impacto sobre o custo operacional, o orçamento da assistência estudantil e a sustentabilidade do serviço.
 
-A literatura associa a previsão de demanda de curto prazo à redução do desperdício em serviços de alimentação coletiva \citep{rodrigues2024machine} e registra aplicações de aprendizado de máquina à estimativa do público e da produção de refeições em RUs brasileiros \citep{rocha2011utilizaccao,de2021metodo}. Esses trabalhos, contudo, concentram-se na previsão do total de refeições servidas, em geral por modelos de maior complexidade. Este artigo adota perspectiva complementar: prever diretamente as faltas por meio de uma regressão linear parcimoniosa, cujos coeficientes são interpretáveis pela equipe de gestão.
+A literatura associa a previsão de demanda de curto prazo à redução do desperdício em serviços de alimentação coletiva \citep{rodrigues2024machine} e registra aplicações de aprendizado de máquina à estimativa do público e da produção de refeições em RUs brasileiros \citep{rocha2011utilizaccao,de2021metodo}. Esses trabalhos, contudo, concentram-se na previsão do total de refeições servidas, em geral por modelos de maior complexidade. Nesse sentido, o presente artigo se propõe a prever as faltas através de uma regressão linear parcimoniosa, cujos coeficientes são interpretáveis pela equipe de gestão.
 
 O objetivo é especificar e avaliar um modelo de regressão linear múltipla que estime a quantidade diária de faltas no RU da UFSM a partir de médias móveis históricas, do total de agendamentos do dia e da sazonalidade semanal, verificando, em partição cronológica de teste, se ele supera um baseline sazonal ingênuo segundo MAE, RMSE, $R^2$ e WAPE.
 
 \section{Referencial Teórico}
 
-\textbf{Demanda e desperdício em alimentação coletiva.} \citet{rodrigues2024machine} investigam modelos de aprendizado de máquina para previsão de demanda de curto prazo em serviços de catering, mostrando que estimativas mais precisas contribuem para conter a sobreprodução e o desperdício. No contexto brasileiro, \citet{rocha2011utilizaccao} empregam redes neurais artificiais para determinar o número de refeições diárias de um RU, e \citet{de2021metodo} avaliam algoritmos como Random Forest e SVR para prever a produção de refeições, destacando o papel de atributos de calendário.
+\citet{rodrigues2024machine} demonstram que modelos de aprendizado de máquina reduzem a sobreprodução e o desperdício ao melhorar a previsão de demanda de curto prazo em catering. No Brasil, \citet{rocha2011utilizaccao} preveem refeições diárias em um RU via redes neurais artificiais, enquanto de \citet{de2021metodo} aplicam algoritmos como Random Forest e SVR, destacando a relevância de atributos de calendário.
 
-\textbf{Modelagem supervisionada e engenharia de atributos.} Na regressão linear múltipla, a variável resposta é descrita como combinação linear de preditores, com coeficientes estimados por mínimos quadrados ordinários, o que preserva a interpretabilidade do efeito de cada variável \citep{gareth2023introduction}. \citet{kuhn2019feature} destacam que o desempenho de modelos preditivos depende da construção de atributos informativos: estatísticas derivadas do histórico, como médias móveis, incorporam inércia e tendência, e variáveis categóricas devem ser codificadas em indicadores (one-hot) para não impor ordenação numérica inexistente.
+Na regressão linear múltipla, a resposta é modelada como combinação linear dos preditores, com coeficientes estimados por mínimos quadrados ordinários, garantindo a interpretabilidade de cada variável \citep{gareth2023introduction}. Para o desempenho preditivo, \citet{kuhn2019feature} recomendam construir atributos informativos: médias móveis históricas capturam inércia e tendência, e variáveis categóricas exigem codificação one-hot para evitar ordenação artificial.
 
-\textbf{Séries temporais e métricas de acurácia.} \citet{hyndman2012principles} enfatizam que a acurácia deve ser medida em dados não usados no ajuste, preservando a ordem cronológica, e que métodos simples de referência (benchmarks) devem servir de parâmetro de comparação. \citet{hyndman2006another} mostram que MAE e RMSE dependem da escala da série e que erros percentuais pontuais se tornam instáveis quando valores observados são pequenos, razão pela qual convém combinar medidas e comparar com um método de referência. O WAPE, que normaliza o erro absoluto agregado pelo total observado, fornece uma medida percentual estável e de fácil leitura gerencial.
+Na avaliação, \citet{hyndman2012principles} indicam testar a acurácia fora da amostra, preservando a ordem cronológica e comparando os resultados a benchmarks simples. Como MAE e RMSE dependem da escala e erros percentuais pontuais falham com valores baixos, \citet{hyndman2006another} recomendam combinar métricas frente a um modelo de referência. Nesse cenário, o WAPE — erro absoluto agregado dividido pelo total observado — oferece uma métrica percentual estável e de leitura gerencial direta.
 
 \section{Metodologia}
 
 \subsection{Coleta, saneamento e variável-alvo}
 
-Os dados provêm de uma view que consolida, por dia, os agendamentos e as refeições servidas no RU do Campus I, exportada em CSV (1.114 registros diários). O script lê o arquivo, padroniza os nomes das colunas, trata o texto ``NULL'' como valor ausente, remove os registros incompletos (80, em sua maioria nas médias móveis do início da série, ainda sem 90 dias de histórico), ordena por data e confere a consistência da variável-alvo, restando 1.034 registros válidos (27/06/2022 a 27/05/2026). A variável-alvo, para o dia $t$, é:
+Os dados provêm de uma view (tabela virtual definida por uma consulta SQL armazenada no banco de dados) que consolida, por dia, os agendamentos e as refeições servidas no RU do Campus I, exportada em CSV (1.114 registros diários). O script lê o arquivo, padroniza os nomes das colunas, trata o texto ``NULL'' como valor ausente, remove os registros incompletos (80, em sua maioria nas médias móveis do início da série, ainda sem 90 dias de histórico), ordena por data e confere a consistência da variável-alvo, restando 1.034 registros válidos (27/06/2022 a 27/05/2026). A variável-alvo, para o dia $t$, é:
 
 \begin{equation}
 \text{FALTAS}_t = \text{TOTAL\_AGENDAMENTOS}_t - \text{TOTAL\_REFEICOES}_t.
@@ -121,7 +122,7 @@ Etapa & Entrada & Operação & Saída \\
 \begin{flushleft}\footnotesize Fonte: elaborado pelo autor a partir do código-fonte do modelo.\end{flushleft}
 \end{table}
 
-\section{Resultados Esperados e Discussão Metodológica}
+\section{Resultados Preliminares e Discussão}
 
 Os valores desta seção foram obtidos executando o script \texttt{modelo\_faltas\_ru.py} sobre o CSV descrito na Seção 3 (treino de 827 e teste de 207 dias). A Tabela~\ref{tab:desempenho} compara a regressão com o baseline: a regressão reduz o MAE em 57,0\%, o RMSE em 53,8\% e o WAPE em 17,0 pontos percentuais, e o $R^2$ passa de 0,368 para 0,865, isto é, o modelo explica cerca de 86,5\% da variabilidade das faltas no teste. O WAPE de 12,87\% é o erro absoluto total relativo ao total observado, e não uma taxa de acerto.
 
